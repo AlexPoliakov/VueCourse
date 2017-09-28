@@ -9,6 +9,15 @@
     <title>Vue Course Test</title>
 </head>
 <body>
+    <div id="app">
+        <h1>{{ text }}</h1>
+        <input type="text" v-model="text">
+        <button @click="reverseMessage">Обратить порядок букв в сообщении</button>
 
+        <list></list>
+    </div>
+
+    <script src="https://unpkg.com/vue@2.4.4/dist/vue.js"></script>
+    <script src="main.js"></script>
 </body>
 </html>
