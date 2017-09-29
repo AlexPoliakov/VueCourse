@@ -6,15 +6,49 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <title>Vue Course Test</title>
 </head>
 <body>
-    <div id="app">
-        <h1>{{ text }}</h1>
-        <input type="text" v-model="text">
-        <button @click="reverseMessage">Обратить порядок букв в сообщении</button>
-
-        <list></list>
+    <div id="box">
+        <div class="reg__form">
+            <h2 class="name__form">{{ text }}</h2>
+            <form action="">
+                <label for="name">Name:
+                    <input type="text" id="name" required placeholder="Name" v-model="name">
+                </label>
+                <label for="last_name">Last name:
+                    <input type="text" id="last_name" required placeholder="Last name" v-model="lastName">
+                </label>
+                <label for="email">Email:
+                    <input type="email" id="email" required placeholder="Email" v-model="email">
+                </label>
+                <button class="add_user" type="button" @click="addUser" v-show="!show">
+                    <i class="ion-person-add"></i>
+                </button>
+                <button class="add_user" type="button" v-show="show" @click="saveChange">
+                    <i class="ion-ios-unlocked"></i>
+                </button>
+            </form>
+        </div>
+        <div class="users__list">
+            <div class="user" v-for="(user, key) in listUsers">
+                <ul class="data_user">
+                    <li v-for="value in user">{{ value }}</li>
+                </ul>
+                <div class="photo">
+                    <a href="#" :title="message">Add photo</a>
+                </div>
+                <div class="block_but">
+                    <button class="user_but" :title="messageChange" @click="changeData(key)" >
+                        <i class="ion-edit"></i>
+                    </button>
+                    <button class="user_but" :title="messageDelete" @click="deleteUser(key)">
+                        <i class="ion-ios-close-outline"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script src="https://unpkg.com/vue@2.4.4/dist/vue.js"></script>
