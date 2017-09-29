@@ -39,9 +39,9 @@ const vm = new Vue({
     },
     changeData(key) {
       this.show = true;
-      this.name = this.listUsers[key].name;
-      this.lastName = this.listUsers[key].lastName;
-      this.email = this.listUsers[key].email;
+      Object.keys(this.listUsers[key]).forEach((keyUser) => {
+        this[keyUser] = this.listUsers[key][keyUser]
+      });
       this.change = this.listUsers[key];
     },
     saveChange() {
