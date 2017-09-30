@@ -23,7 +23,10 @@
                 <label for="email">Email:
                     <input type="email" id="email" required placeholder="Email" v-model="email">
                 </label>
-                <button class="add_user" type="button" @click="addUser" v-show="!show">
+                <label for="photo">Avatar:
+                    <input type="text" id="photo" required placeholder="http://" v-model="photo">
+                </label>
+                <button class="add_user" type="button" v-show="!show" @click="addUser">
                     <i class="ion-person-add"></i>
                 </button>
                 <button class="add_user" type="button" v-show="show" @click="saveChange">
@@ -34,10 +37,11 @@
         <div class="users__list">
             <div class="user" v-for="(user, key) in listUsers">
                 <ul class="data_user">
-                    <li v-for="value in user">{{ value }}</li>
+                    <li v-for="(value, key) in user" v-if="value !== user.photo">{{ value }}</li>
                 </ul>
                 <div class="photo">
-                    <a href="#" :title="message">Add photo</a>
+                    <img v-if="user.photo !== ''" :src="user.photo" alt="No image">
+                    <a v-else href="#" :title="message">Add photo</a>
                 </div>
                 <div class="block_but">
                     <button class="user_but" :title="messageChange" @click="changeData(key)" >

@@ -12,6 +12,7 @@ const vm = new Vue({
       messageDelete: 'Delete user data',
       show: false,
       change: {},
+      photo: '',
     };
   },
   methods: {
@@ -20,6 +21,7 @@ const vm = new Vue({
       this.lastName = '';
       this.email = '';
       this.show = false;
+      this.photo = '';
     },
     addUser() {
       if (this.name === '' || this.lastName === '' || this.email === '') {
@@ -30,6 +32,7 @@ const vm = new Vue({
         name: this.name,
         lastName: this.lastName,
         email: this.email,
+        photo: this.photo,
       });
       this.clearForm();
     },
@@ -39,8 +42,8 @@ const vm = new Vue({
     },
     changeData(key) {
       this.show = true;
-      Object.keys(this.listUsers[key]).forEach((keyUser) => {
-        this[keyUser] = this.listUsers[key][keyUser]
+      Object.keys(this.listUsers[key]).forEach(keyUser => {
+        this[keyUser] = this.listUsers[key][keyUser];
       });
       this.change = this.listUsers[key];
     },
@@ -48,7 +51,10 @@ const vm = new Vue({
       this.change.name = this.name;
       this.change.lastName = this.lastName;
       this.change.email = this.email;
+      this.change.photo = this.photo;
       this.clearForm();
-    }
-  }
+    },
+  },
 });
+
+// https://plnkr.co/edit/2mkREoKtmycDIWpL7O1y?p=preview
