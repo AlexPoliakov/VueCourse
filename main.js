@@ -13,7 +13,22 @@ const vm = new Vue({
       show: false,
       change: {},
       photo: '',
+      visible: false,
+      visionList: true,
     };
+  },
+  computed: {
+    count() {
+      return this.listUsers.length;
+    },
+    visionBut() {
+      if (this.listUsers.length === 0) {
+        this.visible = false;
+      } else {
+        this.visible = true;
+      }
+      return this.visible;
+    }
   },
   methods: {
     clearForm() {
@@ -25,14 +40,13 @@ const vm = new Vue({
     },
     addUser() {
       if (this.name === '' || this.lastName === '' || this.email === '') {
-        alert('Fill in all fields of the form');
         return;
       }
       this.listUsers.push({
         name: this.name,
         lastName: this.lastName,
         email: this.email,
-        photo: this.photo,
+        photo: this.photo
       });
       this.clearForm();
     },
@@ -54,7 +68,10 @@ const vm = new Vue({
       this.change.photo = this.photo;
       this.clearForm();
     },
-  },
+    hideShowList() {
+      this.visionList = !this.visionList;
+    }
+  }
 });
 
 // https://plnkr.co/edit/2mkREoKtmycDIWpL7O1y?p=preview

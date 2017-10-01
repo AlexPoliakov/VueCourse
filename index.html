@@ -26,33 +26,40 @@
                 <label for="photo">Avatar:
                     <input type="text" id="photo" required placeholder="http://" v-model="photo">
                 </label>
-                <button class="add_user" type="button" v-show="!show" @click="addUser">
+                <button class="add_user" v-show="!show" @click.cap="addUser">
                     <i class="ion-person-add"></i>
                 </button>
                 <button class="add_user" type="button" v-show="show" @click="saveChange">
                     <i class="ion-ios-unlocked"></i>
                 </button>
+                <button type="button" class="hide__list" v-show="visionBut" @click="hideShowList">
+                    <i class="ion-navicon-round" v-if="!visionList"></i>
+                    <i class="ion-ios-more" v-else></i>
+                </button>
+                <span class="count" v-show="visionBut">{{ count }}</span>
             </form>
         </div>
-        <div class="users__list">
-            <div class="user" v-for="(user, key) in listUsers">
-                <ul class="data_user">
-                    <li v-for="(value, key) in user" v-if="value !== user.photo">{{ value }}</li>
-                </ul>
-                <div class="photo">
-                    <img v-if="user.photo !== ''" :src="user.photo" alt="No image">
-                    <a v-else href="#" :title="message">Add photo</a>
-                </div>
-                <div class="block_but">
-                    <button class="user_but" :title="messageChange" @click="changeData(key)" >
-                        <i class="ion-edit"></i>
-                    </button>
-                    <button class="user_but" :title="messageDelete" @click="deleteUser(key)">
-                        <i class="ion-ios-close-outline"></i>
-                    </button>
+        <transition name="animation_block">
+            <div class="users__list" v-show="visionList">
+                <div class="user" v-for="(user, key) in listUsers">
+                    <ul class="data_user">{{ key + 1 }}.
+                        <li v-for="value in user" v-if="value !== user.photo">{{ value }}</li>
+                    </ul>
+                    <div class="photo">
+                        <img class="avatar" v-if="user.photo !== ''" :src="user.photo" alt="No image">
+                        <a v-else href="#" :title="message">Add avatar</a>
+                    </div>
+                    <div class="block_but">
+                        <button class="user_but" :title="messageChange" @click="changeData(key)" >
+                            <i class="ion-edit"></i>
+                        </button>
+                        <button class="user_but" :title="messageDelete" @click="deleteUser(key)">
+                            <i class="ion-ios-close-outline"></i>
+                        </button>
+                    </div>
                 </div>
             </div>
-        </div>
+        </transition>
     </div>
 
     <script src="https://unpkg.com/vue@2.4.4/dist/vue.js"></script>
