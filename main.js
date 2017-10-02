@@ -5,7 +5,7 @@ const vm = new Vue({
       text: 'Registration Form',
       listUsers: [],
       name: '',
-      lastName: '',
+      username: '',
       email: '',
       message: 'Add your photo',
       messageChange: 'Change user data',
@@ -15,6 +15,7 @@ const vm = new Vue({
       photo: '',
       visible: false,
       visionList: true,
+      // endpoint: 'https://jsonplaceholder.typicode.com/users',
     };
   },
   computed: {
@@ -28,25 +29,42 @@ const vm = new Vue({
         this.visible = true;
       }
       return this.visible;
-    }
+    },
+    resource() {
+      let options = {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      };
+      return this.$resource(
+        'https://jsonplaceholder.typicode.com/users{/body}',
+        options
+      );
+    },
   },
   methods: {
     clearForm() {
       this.name = '';
-      this.lastName = '';
+      this.username = '';
       this.email = '';
       this.show = false;
       this.photo = '';
     },
     addUser() {
-      if (this.name === '' || this.lastName === '' || this.email === '') {
+      if (this.name === '' || this.username === '' || this.email === '') {
         return;
       }
       this.listUsers.push({
         name: this.name,
-        lastName: this.lastName,
+        username: this.username,
         email: this.email,
-        photo: this.photo
+        photo: this.photo,
+      });
+      this.resource.save({
+        name: this.name,
+        username: this.username,
+        email: this.email,
+        photo: this.photo,
       });
       this.clearForm();
     },
@@ -63,15 +81,29 @@ const vm = new Vue({
     },
     saveChange() {
       this.change.name = this.name;
-      this.change.lastName = this.lastName;
+      this.change.username = this.username;
       this.change.email = this.email;
       this.change.photo = this.photo;
       this.clearForm();
     },
     hideShowList() {
       this.visionList = !this.visionList;
-    }
-  }
+    },
+    getAllUsers() {
+      this.resource.get().then(
+        response => {
+          this.listUsers = [...response.body];
+        },
+        reject => {
+          let err = new Error(reject);
+          console.log(err);
+        },
+      );
+    },
+  },
+  created() {
+    this.getAllUsers();
+  },
 });
 
 // https://plnkr.co/edit/2mkREoKtmycDIWpL7O1y?p=preview

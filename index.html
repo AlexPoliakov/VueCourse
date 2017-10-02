@@ -17,8 +17,8 @@
                 <label for="name">Name:
                     <input type="text" id="name" required placeholder="Name" v-model="name">
                 </label>
-                <label for="last_name">Last name:
-                    <input type="text" id="last_name" required placeholder="Last name" v-model="lastName">
+                <label for="username">Username:
+                    <input type="text" id="username" required placeholder="Username" v-model="username">
                 </label>
                 <label for="email">Email:
                     <input type="email" id="email" required placeholder="Email" v-model="email">
@@ -41,9 +41,12 @@
         </div>
         <transition name="animation_block">
             <div class="users__list" v-show="visionList">
-                <div class="user" v-for="(user, key) in listUsers">
+                <div class="user" v-for="(user, key) in listUsers" :key="key">
                     <ul class="data_user">{{ key + 1 }}.
-                        <li v-for="value in user" v-if="value !== user.photo">{{ value }}</li>
+                        <li v-for="value in user"
+                            v-if="value === user.name || value === user.username || value === user.email">
+                            {{ value }}
+                        </li>
                     </ul>
                     <div class="photo">
                         <img class="avatar" v-if="user.photo !== ''" :src="user.photo" alt="No image">
@@ -63,6 +66,7 @@
     </div>
 
     <script src="https://unpkg.com/vue@2.4.4/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue-resource@1.3.4"></script>
     <script src="main.js"></script>
 </body>
 </html>
