@@ -11,7 +11,7 @@
 </head>
 <body>
     <div id="box">
-        <div class="reg__form">
+        <div class="reg__form" id="beginner">
             <h2 class="name__form">{{ text }}</h2>
             <form action="">
                 <label for="name">Name:
@@ -26,7 +26,7 @@
                 <label for="photo">Avatar:
                     <input type="text" id="photo" required placeholder="http://" v-model="photo">
                 </label>
-                <button class="add_user" v-show="!show" @click.cap="addUser">
+                <button class="add_user" v-show="!show" @click="addUser">
                     <i class="ion-person-add"></i>
                 </button>
                 <button class="add_user" type="button" v-show="show" @click="saveChange">
@@ -41,7 +41,7 @@
         </div>
         <transition name="animation_block">
             <div class="users__list" v-show="visionList">
-                <div class="user" v-for="(user, key) in listUsers" :key="key">
+                <div class="user" v-for="(user, key) in listUsers" :key="user.id">
                     <ul class="data_user">{{ key + 1 }}.
                         <li v-for="value in user"
                             v-if="value === user.name || value === user.username || value === user.email">
@@ -50,11 +50,13 @@
                     </ul>
                     <div class="photo">
                         <img class="avatar" v-if="user.photo !== ''" :src="user.photo" alt="No image">
-                        <a v-else href="#" :title="message">Add avatar</a>
+                        <a v-else href="https://www.iconfinder.com/search/?q=user+photo&price=free&style=glyph" :title="message">
+                            Add avatar
+                        </a>
                     </div>
                     <div class="block_but">
-                        <button class="user_but" :title="messageChange" @click="changeData(key)" >
-                            <i class="ion-edit"></i>
+                        <button class="user_but" :title="messageChange" @click="changeData(key)">
+                            <a class="user_but" href="#beginner"><i class="ion-edit"></i></a>
                         </button>
                         <button class="user_but" :title="messageDelete" @click="deleteUser(key)">
                             <i class="ion-ios-close-outline"></i>
