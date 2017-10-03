@@ -43,14 +43,13 @@
             <div class="users__list" v-show="visionList">
                 <div class="user" v-for="(user, key) in listUsers" :key="user.id">
                     <ul class="data_user">{{ key + 1 }}.
-                        <li v-for="value in user"
-                            v-if="value === user.name || value === user.username || value === user.email">
-                            {{ value }}
+                        <li v-for="(value, key) in user" v-if="changeList">
+                            {{ key }}: {{ value }}
                         </li>
                     </ul>
                     <div class="photo">
-                        <img class="avatar" v-if="user.photo !== ''" :src="user.photo" alt="No image">
-                        <a v-else href="https://www.iconfinder.com/search/?q=user+photo&price=free&style=glyph" :title="message">
+                        <img class="avatar" v-if='havePhoto(user)' :src="user.photo" alt="No image">
+                        <a v-else href="https://www.iconfinder.com/search/?q=user+photo&price=free&style=glyph" target="_blank" :title="message">
                             Add avatar
                         </a>
                     </div>

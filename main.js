@@ -13,9 +13,7 @@ const vm = new Vue({
       show: false,
       change: {},
       photo: '',
-      visible: false,
       visionList: true,
-      // endpoint: 'https://jsonplaceholder.typicode.com/users',
     };
   },
   computed: {
@@ -23,12 +21,7 @@ const vm = new Vue({
       return this.listUsers.length;
     },
     visionBut() {
-      if (this.listUsers.length === 0) {
-        this.visible = false;
-      } else {
-        this.visible = true;
-      }
-      return this.visible;
+      return this.listUsers.length > 0;
     },
     resource() {
       let options = {
@@ -38,8 +31,25 @@ const vm = new Vue({
       };
       return this.$resource(
         'https://jsonplaceholder.typicode.com/users{/body}',
-        options
+        options,
       );
+    },
+    changeList() {
+      return this.listUsers = this.listUsers.filter(user => {
+        for (let key in user) {
+          if (
+            key === 'name' ||
+            key === 'username' ||
+            key === 'email' ||
+            key === 'id'
+          ) {
+            continue;
+          } else {
+            delete user[key];
+          }
+        }
+        return user;
+      });
     },
   },
   methods: {
@@ -51,9 +61,7 @@ const vm = new Vue({
       this.photo = '';
     },
     addUser() {
-      if (this.name === '' || this.username === '' || this.email === '') {
-        return;
-      }
+      if (this.name === '' || this.username === '' || this.email === '') return;
       this.listUsers.push({
         name: this.name,
         username: this.username,
@@ -67,6 +75,9 @@ const vm = new Vue({
         photo: this.photo,
       });
       this.clearForm();
+    },
+    havePhoto(user) {
+      return user.photo !== '';
     },
     deleteUser(index) {
       this.listUsers.splice(index, 1);
@@ -105,5 +116,3 @@ const vm = new Vue({
     this.getAllUsers();
   },
 });
-
-// https://plnkr.co/edit/2mkREoKtmycDIWpL7O1y?p=preview
