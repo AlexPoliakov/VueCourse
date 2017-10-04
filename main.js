@@ -16,13 +16,17 @@ const vm = new Vue({
       visionList: true,
     };
   },
+
   computed: {
+
     count() {
       return this.listUsers.length;
     },
-    visionBut() {
+
+    haveUsers() {
       return this.listUsers.length > 0;
     },
+
     resource() {
       let options = {
         headers: {
@@ -34,24 +38,19 @@ const vm = new Vue({
         options,
       );
     },
+
     changeList() {
-      return this.listUsers = this.listUsers.filter(user => {
-        for (let key in user) {
-          if (
-            key === 'name' ||
-            key === 'username' ||
-            key === 'email' ||
-            key === 'id'
-          ) {
-            continue;
-          } else {
-            delete user[key];
-          }
-        }
-        return user;
-      });
+      return (this.listUsers = this.listUsers.map(user => {
+        return {
+          id: user.id,
+          name: user.name,
+          username: user.username,
+          email: user.email,
+        };
+      }));
     },
   },
+
   methods: {
     clearForm() {
       this.name = '';
@@ -60,6 +59,7 @@ const vm = new Vue({
       this.show = false;
       this.photo = '';
     },
+
     addUser() {
       if (this.name === '' || this.username === '' || this.email === '') return;
       this.listUsers.push({
@@ -76,20 +76,24 @@ const vm = new Vue({
       });
       this.clearForm();
     },
+
     havePhoto(user) {
       return user.photo !== '';
     },
+
     deleteUser(index) {
       this.listUsers.splice(index, 1);
       this.clearForm();
     },
-    changeData(key) {
+
+    setDataInForm(key) {
       this.show = true;
       Object.keys(this.listUsers[key]).forEach(keyUser => {
         this[keyUser] = this.listUsers[key][keyUser];
       });
       this.change = this.listUsers[key];
     },
+
     saveChange() {
       this.change.name = this.name;
       this.change.username = this.username;
@@ -97,9 +101,11 @@ const vm = new Vue({
       this.change.photo = this.photo;
       this.clearForm();
     },
+
     hideShowList() {
       this.visionList = !this.visionList;
     },
+
     getAllUsers() {
       this.resource.get().then(
         response => {
@@ -112,6 +118,7 @@ const vm = new Vue({
       );
     },
   },
+
   created() {
     this.getAllUsers();
   },

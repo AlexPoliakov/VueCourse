@@ -159,6 +159,6 @@ a:hover {
   transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
 }
 .animation_block-enter, .animation_block-leave-to {
-  transform: translateX(100%);
+  transform: scaleX(0);
   opacity: 0;
 }
