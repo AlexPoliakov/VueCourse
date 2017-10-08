@@ -37,6 +37,7 @@
             </button>
             <span class="count" v-if="haveUsers">{{ count }}</span>
         </div>
+
         <transition name="animation_block">
             <div class="users__list" v-if="visionList">
                 <div class="user" v-for="(user, key) in listUsers" :key="user.id">
